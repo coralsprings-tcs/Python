@@ -13,21 +13,22 @@ from persim import PersImage
 import matplotlib.pyplot as plt
 import mne
 
-cdef file = 'whatever edf file'
+#startFile = r'C:\Users\mannj\OneDrive\Desktop\EegData\Seizure\00000015_s003_t000.edf'
+startFile = "00000015_s003_t000.edf"
 cdef lengthOfArray = 200
-cdef threshold = 0.95
-cdef resultFile = 'Desktop/dgms.txt'
+cdef threshold = 0.85
+resultFile = r'C:\Users\mannj\OneDrive\Desktop/dgms.txt'
 
-cdef EegTruncate(char* startFile, char* resultFile, int lengthOfArray, float threshold):
+cdef EegTruncate(startFile, resultFile, int lengthOfArray, float threshold):
 #cdef EegTruncate():   
     # cdef char* startFile, resultFile
     # cdef int lengthOfArray
     # cdef float threshold
-    
     if startFile is None and resultFile is None and lengthOfArray is None and threshold is None:
         raise Exception("Seed values not all defined")
-    
-    data = mne.io.read_raw_edf(startFile) 
+        
+    np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning) 
+    data = mne.io.read_raw_edf("00000015_s003_t000.edf", dtype=object) 
     rawData = data.get_data()
     info = data.info
     channels = data.ch_names 
@@ -41,7 +42,8 @@ cdef EegTruncate(char* startFile, char* resultFile, int lengthOfArray, float thr
 #des_len can be changed depending on how many data points are desired
 #this may be useful if quick calculations are desired (sampling of EEG as opposed to using whole thing)
 
-    edf_data = transposedData[0:lengthOfArray] 
+    edf_data = transposedData[0:lengthOfArray]
+    edf_data = np.array(edf_data,dtype=object)
 #change threshold as desired
 #a value of 0.95 indicates channels that contribute to 95% of PCA
 #ideally use two to three channels for quicker results (threshold = 0.95 - 0.99)

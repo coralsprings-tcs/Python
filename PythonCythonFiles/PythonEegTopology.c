@@ -894,6 +894,16 @@ static const char *__pyx_f[] = {
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
 
+/* PyObjectGetAttrStr.proto */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
+#else
+#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
+#endif
+
+/* GetBuiltinName.proto */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name);
+
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
 #define __Pyx_PyThreadState_declare  PyThreadState *__pyx_tstate;
@@ -1142,16 +1152,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg
 /* RaiseException.proto */
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
-/* PyObjectGetAttrStr.proto */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
-#else
-#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
-#endif
-
-/* GetBuiltinName.proto */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name);
-
 /* PyDictVersioning.proto */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
 #define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
@@ -1199,13 +1199,6 @@ static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_ve
 static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
 #endif
 
-/* PyCFunctionFastCall.proto */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
-#else
-#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
-#endif
-
 /* PyFunctionFastCall.proto */
 #if CYTHON_FAST_PYCALL
 #define __Pyx_PyFunction_FastCall(func, args, nargs)\
@@ -1229,16 +1222,10 @@ static PyObject *__Pyx_PyFunction_FastCallDict(PyObject *func, PyObject **args, 
     (assert(__pyx_pyframe_localsplus_offset), (PyObject **)(((char *)(frame)) + __pyx_pyframe_localsplus_offset))
 #endif
 
-/* PyObjectCall2Args.proto */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
-
 /* PyObjectCallMethO.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg);
 #endif
-
-/* PyObjectCallOneArg.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
 /* PyObjectCallNoArg.proto */
 #if CYTHON_COMPILING_IN_CPYTHON
@@ -1247,11 +1234,24 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 #define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
 
+/* PyCFunctionFastCall.proto */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObject **args, Py_ssize_t nargs);
+#else
+#define __Pyx_PyCFunction_FastCall(func, args, nargs)  (assert(0), NULL)
+#endif
+
+/* PyObjectCallOneArg.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
+
 /* SliceObject.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(
         PyObject* obj, Py_ssize_t cstart, Py_ssize_t cstop,
         PyObject** py_start, PyObject** py_stop, PyObject** py_slice,
         int has_cstart, int has_cstop, int wraparound);
+
+/* PyObjectCall2Args.proto */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2);
 
 /* GetTopmostException.proto */
 #if CYTHON_USE_EXC_INFO_STACK
@@ -1360,16 +1360,15 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
 /* Module declarations from 'PythonEegTopology' */
-static PyObject *__pyx_v_17PythonEegTopology_file = 0;
 static PyObject *__pyx_v_17PythonEegTopology_lengthOfArray = 0;
 static PyObject *__pyx_v_17PythonEegTopology_threshold = 0;
-static PyObject *__pyx_v_17PythonEegTopology_resultFile = 0;
 #define __Pyx_MODULE_NAME "PythonEegTopology"
 extern int __pyx_module_is_main_PythonEegTopology;
 int __pyx_module_is_main_PythonEegTopology = 0;
 
 /* Implementation of 'PythonEegTopology' */
-static const char __pyx_k__2[] = "*";
+static PyObject *__pyx_builtin_object;
+static const char __pyx_k__4[] = "*";
 static const char __pyx_k_io[] = "io";
 static const char __pyx_k_np[] = "np";
 static const char __pyx_k_PCA[] = "PCA";
@@ -1386,52 +1385,69 @@ static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_mean[] = "mean";
 static const char __pyx_k_name[] = "__name__";
 static const char __pyx_k_test[] = "__test__";
+static const char __pyx_k_array[] = "array";
+static const char __pyx_k_dtype[] = "dtype";
 static const char __pyx_k_numpy[] = "numpy";
 static const char __pyx_k_print[] = "print";
 static const char __pyx_k_scipy[] = "scipy";
 static const char __pyx_k_stats[] = "stats";
+static const char __pyx_k_ignore[] = "ignore";
 static const char __pyx_k_import[] = "__import__";
+static const char __pyx_k_object[] = "object";
 static const char __pyx_k_persim[] = "persim";
 static const char __pyx_k_ripser[] = "ripser";
 static const char __pyx_k_product[] = "product";
 static const char __pyx_k_savetxt[] = "savetxt";
 static const char __pyx_k_sklearn[] = "sklearn";
+static const char __pyx_k_category[] = "category";
 static const char __pyx_k_ch_names[] = "ch_names";
 static const char __pyx_k_datasets[] = "datasets";
 static const char __pyx_k_get_data[] = "get_data";
+static const char __pyx_k_warnings[] = "warnings";
 static const char __pyx_k_PersImage[] = "PersImage";
 static const char __pyx_k_itertools[] = "itertools";
+static const char __pyx_k_startFile[] = "startFile";
 static const char __pyx_k_transform[] = "transform";
 static const char __pyx_k_transpose[] = "transpose";
+static const char __pyx_k_resultFile[] = "resultFile";
 static const char __pyx_k_scipy_stats[] = "scipy.stats";
 static const char __pyx_k_read_raw_edf[] = "read_raw_edf";
 static const char __pyx_k_fit_transform[] = "fit_transform";
-static const char __pyx_k_Desktop_dgms_txt[] = "Desktop/dgms.txt";
+static const char __pyx_k_filterwarnings[] = "filterwarnings";
 static const char __pyx_k_inverse_transform[] = "inverse_transform";
 static const char __pyx_k_matplotlib_pyplot[] = "matplotlib.pyplot";
-static const char __pyx_k_whatever_edf_file[] = "whatever edf file";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
 static const char __pyx_k_multivariate_normal[] = "multivariate_normal";
 static const char __pyx_k_sklearn_decomposition[] = "sklearn.decomposition";
+static const char __pyx_k_00000015_s003_t000_edf[] = "00000015_s003_t000.edf";
+static const char __pyx_k_VisibleDeprecationWarning[] = "VisibleDeprecationWarning";
 static const char __pyx_k_Seed_values_not_all_defined[] = "Seed values not all defined";
 static const char __pyx_k_Problem_running_Ripser_module[] = "Problem running Ripser module";
+static const char __pyx_k_C_Users_mannj_OneDrive_Desktop_d[] = "C:\\Users\\mannj\\OneDrive\\Desktop/dgms.txt";
 static const char __pyx_k_Problem_saving_output_Your_resul[] = "Problem saving output. Your results are displayed below...";
-static PyObject *__pyx_kp_s_Desktop_dgms_txt;
+static PyObject *__pyx_kp_s_00000015_s003_t000_edf;
+static PyObject *__pyx_kp_s_C_Users_mannj_OneDrive_Desktop_d;
 static PyObject *__pyx_n_s_PCA;
 static PyObject *__pyx_n_s_PersImage;
 static PyObject *__pyx_kp_s_Problem_running_Ripser_module;
 static PyObject *__pyx_kp_s_Problem_saving_output_Your_resul;
 static PyObject *__pyx_n_s_Rips;
 static PyObject *__pyx_kp_s_Seed_values_not_all_defined;
-static PyObject *__pyx_n_s__2;
+static PyObject *__pyx_n_s_VisibleDeprecationWarning;
+static PyObject *__pyx_n_s__4;
+static PyObject *__pyx_n_s_array;
+static PyObject *__pyx_n_s_category;
 static PyObject *__pyx_n_s_ch_names;
 static PyObject *__pyx_n_s_cline_in_traceback;
 static PyObject *__pyx_n_s_datasets;
+static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_end;
 static PyObject *__pyx_n_s_file;
+static PyObject *__pyx_n_s_filterwarnings;
 static PyObject *__pyx_n_s_fit;
 static PyObject *__pyx_n_s_fit_transform;
 static PyObject *__pyx_n_s_get_data;
+static PyObject *__pyx_n_s_ignore;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_info;
 static PyObject *__pyx_n_s_inverse_transform;
@@ -1446,37 +1462,42 @@ static PyObject *__pyx_n_s_mvn;
 static PyObject *__pyx_n_s_name;
 static PyObject *__pyx_n_s_np;
 static PyObject *__pyx_n_s_numpy;
+static PyObject *__pyx_n_s_object;
 static PyObject *__pyx_n_s_persim;
 static PyObject *__pyx_n_s_plt;
 static PyObject *__pyx_n_s_print;
 static PyObject *__pyx_n_s_product;
 static PyObject *__pyx_n_s_read_raw_edf;
+static PyObject *__pyx_n_s_resultFile;
 static PyObject *__pyx_n_s_ripser;
 static PyObject *__pyx_n_s_savetxt;
 static PyObject *__pyx_n_s_scipy;
 static PyObject *__pyx_n_s_scipy_stats;
 static PyObject *__pyx_n_s_sklearn;
 static PyObject *__pyx_n_s_sklearn_decomposition;
+static PyObject *__pyx_n_s_startFile;
 static PyObject *__pyx_n_s_stats;
 static PyObject *__pyx_n_s_std;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_transform;
 static PyObject *__pyx_n_s_transpose;
-static PyObject *__pyx_kp_s_whatever_edf_file;
-static PyObject *__pyx_float_0_95;
+static PyObject *__pyx_n_s_warnings;
+static PyObject *__pyx_float_0_85;
 static PyObject *__pyx_int_200;
 static PyObject *__pyx_tuple_;
+static PyObject *__pyx_tuple__2;
+static PyObject *__pyx_tuple__3;
 /* Late includes */
 
-/* "PythonEegTopology.pyx":21
- * cdef resultFile = 'Desktop/dgms.txt'
+/* "PythonEegTopology.pyx":22
+ * resultFile = r'C:\Users\mannj\OneDrive\Desktop/dgms.txt'
  * 
- * cdef EegTruncate(char* startFile, char* resultFile, int lengthOfArray, float threshold):             # <<<<<<<<<<<<<<
+ * cdef EegTruncate(startFile, resultFile, int lengthOfArray, float threshold):             # <<<<<<<<<<<<<<
  * #cdef EegTruncate():
  *     # cdef char* startFile, resultFile
  */
 
-static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile, char *__pyx_v_resultFile, int __pyx_v_lengthOfArray, float __pyx_v_threshold) {
+static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(PyObject *__pyx_v_startFile, PyObject *__pyx_v_resultFile, int __pyx_v_lengthOfArray, float __pyx_v_threshold) {
   PyObject *__pyx_v_data = NULL;
   PyObject *__pyx_v_rawData = NULL;
   CYTHON_UNUSED PyObject *__pyx_v_info = NULL;
@@ -1492,9 +1513,9 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
   __Pyx_TraceDeclarations
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
-  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_2;
   int __pyx_t_3;
-  int __pyx_t_4;
+  PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   PyObject *__pyx_t_7 = NULL;
@@ -1507,70 +1528,64 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("EegTruncate", 0);
-  __Pyx_TraceCall("EegTruncate", __pyx_f[0], 21, 0, __PYX_ERR(0, 21, __pyx_L1_error));
+  __Pyx_TraceCall("EegTruncate", __pyx_f[0], 22, 0, __PYX_ERR(0, 22, __pyx_L1_error));
 
   /* "PythonEegTopology.pyx":27
+ *     # cdef int lengthOfArray
  *     # cdef float threshold
- * 
  *     if startFile is None and resultFile is None and lengthOfArray is None and threshold is None:             # <<<<<<<<<<<<<<
  *         raise Exception("Seed values not all defined")
  * 
  */
-  __pyx_t_2 = __Pyx_PyBytes_FromString(__pyx_v_startFile); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = (((PyObject*)__pyx_t_2) == ((PyObject*)Py_None));
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = (__pyx_t_3 != 0);
-  if (__pyx_t_4) {
-  } else {
-    __pyx_t_1 = __pyx_t_4;
-    goto __pyx_L4_bool_binop_done;
-  }
-  __pyx_t_2 = __Pyx_PyBytes_FromString(__pyx_v_resultFile); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = (((PyObject*)__pyx_t_2) == ((PyObject*)Py_None));
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = (__pyx_t_4 != 0);
+  __pyx_t_2 = (__pyx_v_startFile == Py_None);
+  __pyx_t_3 = (__pyx_t_2 != 0);
   if (__pyx_t_3) {
   } else {
     __pyx_t_1 = __pyx_t_3;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = __Pyx_PyInt_From_int(__pyx_v_lengthOfArray); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = (__pyx_t_2 == Py_None);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = (__pyx_t_3 != 0);
-  if (__pyx_t_4) {
+  __pyx_t_3 = (__pyx_v_resultFile == Py_None);
+  __pyx_t_2 = (__pyx_t_3 != 0);
+  if (__pyx_t_2) {
   } else {
-    __pyx_t_1 = __pyx_t_4;
+    __pyx_t_1 = __pyx_t_2;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_2 = PyFloat_FromDouble(__pyx_v_threshold); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = (__pyx_t_2 == Py_None);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = (__pyx_t_4 != 0);
-  __pyx_t_1 = __pyx_t_3;
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_lengthOfArray); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_2 = (__pyx_t_4 == Py_None);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_3 = (__pyx_t_2 != 0);
+  if (__pyx_t_3) {
+  } else {
+    __pyx_t_1 = __pyx_t_3;
+    goto __pyx_L4_bool_binop_done;
+  }
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_threshold); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 27, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = (__pyx_t_4 == Py_None);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_2 = (__pyx_t_3 != 0);
+  __pyx_t_1 = __pyx_t_2;
   __pyx_L4_bool_binop_done:;
   if (unlikely(__pyx_t_1)) {
 
     /* "PythonEegTopology.pyx":28
- * 
+ *     # cdef float threshold
  *     if startFile is None and resultFile is None and lengthOfArray is None and threshold is None:
  *         raise Exception("Seed values not all defined")             # <<<<<<<<<<<<<<
  * 
- *     data = mne.io.read_raw_edf(startFile)
+ *     np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
  */
-    __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple_, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_Raise(__pyx_t_2, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)(&((PyTypeObject*)PyExc_Exception)[0])), __pyx_tuple_, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 28, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __PYX_ERR(0, 28, __pyx_L1_error)
 
     /* "PythonEegTopology.pyx":27
+ *     # cdef int lengthOfArray
  *     # cdef float threshold
- * 
  *     if startFile is None and resultFile is None and lengthOfArray is None and threshold is None:             # <<<<<<<<<<<<<<
  *         raise Exception("Seed values not all defined")
  * 
@@ -1580,20 +1595,67 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
   /* "PythonEegTopology.pyx":30
  *         raise Exception("Seed values not all defined")
  * 
- *     data = mne.io.read_raw_edf(startFile)             # <<<<<<<<<<<<<<
+ *     np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)             # <<<<<<<<<<<<<<
+ *     data = mne.io.read_raw_edf("00000015_s003_t000.edf", dtype=object)
+ *     rawData = data.get_data()
+ */
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_warnings); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_filterwarnings); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_VisibleDeprecationWarning); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_category, __pyx_t_7) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__2, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+  /* "PythonEegTopology.pyx":31
+ * 
+ *     np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
+ *     data = mne.io.read_raw_edf("00000015_s003_t000.edf", dtype=object)             # <<<<<<<<<<<<<<
  *     rawData = data.get_data()
  *     info = data.info
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_mne); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_mne); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_io); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_io); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_read_raw_edf); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_read_raw_edf); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 31, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyBytes_FromString(__pyx_v_startFile); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 30, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, __pyx_builtin_object) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__3, __pyx_t_5); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_data = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "PythonEegTopology.pyx":32
+ *     np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
+ *     data = mne.io.read_raw_edf("00000015_s003_t000.edf", dtype=object)
+ *     rawData = data.get_data()             # <<<<<<<<<<<<<<
+ *     info = data.info
+ *     channels = data.ch_names
+ */
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_data, __pyx_n_s_get_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
     __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
@@ -1604,217 +1666,217 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
       __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_7, __pyx_t_6) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6);
+  __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 32, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_data = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_v_rawData = __pyx_t_4;
+  __pyx_t_4 = 0;
 
-  /* "PythonEegTopology.pyx":31
- * 
- *     data = mne.io.read_raw_edf(startFile)
- *     rawData = data.get_data()             # <<<<<<<<<<<<<<
- *     info = data.info
- *     channels = data.ch_names
- */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_data, __pyx_n_s_get_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 31, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
-    }
-  }
-  __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_rawData = __pyx_t_2;
-  __pyx_t_2 = 0;
-
-  /* "PythonEegTopology.pyx":32
- *     data = mne.io.read_raw_edf(startFile)
+  /* "PythonEegTopology.pyx":33
+ *     data = mne.io.read_raw_edf("00000015_s003_t000.edf", dtype=object)
  *     rawData = data.get_data()
  *     info = data.info             # <<<<<<<<<<<<<<
  *     channels = data.ch_names
  *     transposedData = rawData.transpose()
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_data, __pyx_n_s_info); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 32, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_info = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_data, __pyx_n_s_info); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_v_info = __pyx_t_4;
+  __pyx_t_4 = 0;
 
-  /* "PythonEegTopology.pyx":33
+  /* "PythonEegTopology.pyx":34
  *     rawData = data.get_data()
  *     info = data.info
  *     channels = data.ch_names             # <<<<<<<<<<<<<<
  *     transposedData = rawData.transpose()
  * #shape of array
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_data, __pyx_n_s_ch_names); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_channels = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_data, __pyx_n_s_ch_names); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_v_channels = __pyx_t_4;
+  __pyx_t_4 = 0;
 
-  /* "PythonEegTopology.pyx":34
+  /* "PythonEegTopology.pyx":35
  *     info = data.info
  *     channels = data.ch_names
  *     transposedData = rawData.transpose()             # <<<<<<<<<<<<<<
  * #shape of array
  * #assess how many data points are within array config_data = raw_data.shape
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_rawData, __pyx_n_s_transpose); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_rawData, __pyx_n_s_transpose); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = NULL;
+  __pyx_t_7 = NULL;
   if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_6)) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_7)) {
       PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_5, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
-  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 35, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_transposedData = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_v_transposedData = __pyx_t_4;
+  __pyx_t_4 = 0;
 
-  /* "PythonEegTopology.pyx":44
+  /* "PythonEegTopology.pyx":45
  * #this may be useful if quick calculations are desired (sampling of EEG as opposed to using whole thing)
  * 
  *     edf_data = transposedData[0:lengthOfArray]             # <<<<<<<<<<<<<<
+ *     edf_data = np.array(edf_data,dtype=object)
+ * #change threshold as desired
+ */
+  __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_v_transposedData, 0, __pyx_v_lengthOfArray, NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_v_edf_data = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "PythonEegTopology.pyx":46
+ * 
+ *     edf_data = transposedData[0:lengthOfArray]
+ *     edf_data = np.array(edf_data,dtype=object)             # <<<<<<<<<<<<<<
  * #change threshold as desired
  * #a value of 0.95 indicates channels that contribute to 95% of PCA
  */
-  __pyx_t_2 = __Pyx_PyObject_GetSlice(__pyx_v_transposedData, 0, __pyx_v_lengthOfArray, NULL, NULL, NULL, 1, 1, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_v_edf_data = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_array); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_INCREF(__pyx_v_edf_data);
+  __Pyx_GIVEREF(__pyx_v_edf_data);
+  PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_edf_data);
+  __pyx_t_7 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_dtype, __pyx_builtin_object) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 46, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF_SET(__pyx_v_edf_data, __pyx_t_6);
+  __pyx_t_6 = 0;
 
-  /* "PythonEegTopology.pyx":50
+  /* "PythonEegTopology.pyx":52
  * #this is useful only with normal EEGs as it is assumed normal EEGs will have similar channel patterns while seizures can have only several channel patterns be abnormal
  * 
  *     pca = PCA(threshold).fit(transposedData)             # <<<<<<<<<<<<<<
  *     components = pca.transform(transposedData)
  *     edfFilteredData = pca.inverse_transform(components)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_PCA); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyFloat_FromDouble(__pyx_v_threshold); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_PCA); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_threshold); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_8 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_6);
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_4);
     if (likely(__pyx_t_8)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
       __Pyx_INCREF(__pyx_t_8);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_6, function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  __pyx_t_5 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_8, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7);
+  __pyx_t_7 = (__pyx_t_8) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_8, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
   __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_fit); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_5);
+  if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_fit); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_6, function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_5, __pyx_v_transposedData) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_transposedData);
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 50, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_pca = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_7, __pyx_v_transposedData) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_transposedData);
+  __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_pca = __pyx_t_6;
+  __pyx_t_6 = 0;
 
-  /* "PythonEegTopology.pyx":51
+  /* "PythonEegTopology.pyx":53
  * 
  *     pca = PCA(threshold).fit(transposedData)
  *     components = pca.transform(transposedData)             # <<<<<<<<<<<<<<
  *     edfFilteredData = pca.inverse_transform(components)
  *     print(type(edfFilteredData))
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_pca, __pyx_n_s_transform); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_pca, __pyx_n_s_transform); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_6, function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_5, __pyx_v_transposedData) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_transposedData);
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_components = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_7, __pyx_v_transposedData) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_transposedData);
+  __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_components = __pyx_t_6;
+  __pyx_t_6 = 0;
 
-  /* "PythonEegTopology.pyx":52
+  /* "PythonEegTopology.pyx":54
  *     pca = PCA(threshold).fit(transposedData)
  *     components = pca.transform(transposedData)
  *     edfFilteredData = pca.inverse_transform(components)             # <<<<<<<<<<<<<<
  *     print(type(edfFilteredData))
  * 
  */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_pca, __pyx_n_s_inverse_transform); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 52, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_5)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_5);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_pca, __pyx_n_s_inverse_transform); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_7);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_6, function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_5, __pyx_v_components) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_components);
-  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 52, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_edfFilteredData = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_7, __pyx_v_components) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_components);
+  __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_v_edfFilteredData = __pyx_t_6;
+  __pyx_t_6 = 0;
 
-  /* "PythonEegTopology.pyx":53
+  /* "PythonEegTopology.pyx":55
  *     components = pca.transform(transposedData)
  *     edfFilteredData = pca.inverse_transform(components)
  *     print(type(edfFilteredData))             # <<<<<<<<<<<<<<
  * 
  * #Lets you know how many channels can be used with transformed components print('The number of channels that were used was '+repr(pca.n_components_))
  */
-  if (__Pyx_PrintOne(0, ((PyObject *)Py_TYPE(__pyx_v_edfFilteredData))) < 0) __PYX_ERR(0, 53, __pyx_L1_error)
+  if (__Pyx_PrintOne(0, ((PyObject *)Py_TYPE(__pyx_v_edfFilteredData))) < 0) __PYX_ERR(0, 55, __pyx_L1_error)
 
-  /* "PythonEegTopology.pyx":60
+  /* "PythonEegTopology.pyx":62
  * #the savetxt is set to work with Macs
  * #the file path needed to successfully save is different with Windows
  *     try:             # <<<<<<<<<<<<<<
@@ -1830,61 +1892,61 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
     __Pyx_XGOTREF(__pyx_t_11);
     /*try:*/ {
 
-      /* "PythonEegTopology.pyx":61
+      /* "PythonEegTopology.pyx":63
  * #the file path needed to successfully save is different with Windows
  *     try:
  *         rips = Rips()             # <<<<<<<<<<<<<<
  *         dgms = rips.fit_transform(edf_data)
  *     except:
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Rips); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 61, __pyx_L8_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = NULL;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
-        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
-        if (likely(__pyx_t_5)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-          __Pyx_INCREF(__pyx_t_5);
+      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Rips); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 63, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_7 = NULL;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
+        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_7)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_7);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_6, function);
+          __Pyx_DECREF_SET(__pyx_t_4, function);
         }
       }
-      __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L8_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_v_rips = __pyx_t_2;
-      __pyx_t_2 = 0;
+      __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 63, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_v_rips = __pyx_t_6;
+      __pyx_t_6 = 0;
 
-      /* "PythonEegTopology.pyx":62
+      /* "PythonEegTopology.pyx":64
  *     try:
  *         rips = Rips()
  *         dgms = rips.fit_transform(edf_data)             # <<<<<<<<<<<<<<
  *     except:
  *         print("Problem running Ripser module")
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_rips, __pyx_n_s_fit_transform); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 62, __pyx_L8_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = NULL;
-      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
-        __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
-        if (likely(__pyx_t_5)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-          __Pyx_INCREF(__pyx_t_5);
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_rips, __pyx_n_s_fit_transform); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 64, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_7 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_4);
+        if (likely(__pyx_t_7)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+          __Pyx_INCREF(__pyx_t_7);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_6, function);
+          __Pyx_DECREF_SET(__pyx_t_4, function);
         }
       }
-      __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_5, __pyx_v_edf_data) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_edf_data);
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 62, __pyx_L8_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_v_dgms = __pyx_t_2;
-      __pyx_t_2 = 0;
+      __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_7, __pyx_v_edf_data) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_edf_data);
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 64, __pyx_L8_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __pyx_v_dgms = __pyx_t_6;
+      __pyx_t_6 = 0;
 
-      /* "PythonEegTopology.pyx":60
+      /* "PythonEegTopology.pyx":62
  * #the savetxt is set to work with Macs
  * #the file path needed to successfully save is different with Windows
  *     try:             # <<<<<<<<<<<<<<
@@ -1897,13 +1959,13 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
     __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
     goto __pyx_L13_try_end;
     __pyx_L8_error:;
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "PythonEegTopology.pyx":63
+    /* "PythonEegTopology.pyx":65
  *         rips = Rips()
  *         dgms = rips.fit_transform(edf_data)
  *     except:             # <<<<<<<<<<<<<<
@@ -1912,27 +1974,27 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
  */
     /*except:*/ {
       __Pyx_AddTraceback("PythonEegTopology.EegTruncate", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_6, &__pyx_t_5) < 0) __PYX_ERR(0, 63, __pyx_L10_except_error)
-      __Pyx_GOTREF(__pyx_t_2);
+      if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_4, &__pyx_t_7) < 0) __PYX_ERR(0, 65, __pyx_L10_except_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GOTREF(__pyx_t_7);
 
-      /* "PythonEegTopology.pyx":64
+      /* "PythonEegTopology.pyx":66
  *         dgms = rips.fit_transform(edf_data)
  *     except:
  *         print("Problem running Ripser module")             # <<<<<<<<<<<<<<
  * 
  *     try:
  */
-      if (__Pyx_PrintOne(0, __pyx_kp_s_Problem_running_Ripser_module) < 0) __PYX_ERR(0, 64, __pyx_L10_except_error)
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      if (__Pyx_PrintOne(0, __pyx_kp_s_Problem_running_Ripser_module) < 0) __PYX_ERR(0, 66, __pyx_L10_except_error)
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       goto __pyx_L9_exception_handled;
     }
     __pyx_L10_except_error:;
 
-    /* "PythonEegTopology.pyx":60
+    /* "PythonEegTopology.pyx":62
  * #the savetxt is set to work with Macs
  * #the file path needed to successfully save is different with Windows
  *     try:             # <<<<<<<<<<<<<<
@@ -1952,7 +2014,7 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
     __pyx_L13_try_end:;
   }
 
-  /* "PythonEegTopology.pyx":66
+  /* "PythonEegTopology.pyx":68
  *         print("Problem running Ripser module")
  * 
  *     try:             # <<<<<<<<<<<<<<
@@ -1968,71 +2030,67 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
     __Pyx_XGOTREF(__pyx_t_9);
     /*try:*/ {
 
-      /* "PythonEegTopology.pyx":67
+      /* "PythonEegTopology.pyx":69
  * 
  *     try:
  *         np.savetxt(resultFile,dgms)             # <<<<<<<<<<<<<<
  *     except:
  *         print("Problem saving output. Your results are displayed below...")
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_np); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L16_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 69, __pyx_L16_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_savetxt); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 69, __pyx_L16_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_savetxt); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L16_error)
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_6 = __Pyx_PyBytes_FromString(__pyx_v_resultFile); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 67, __pyx_L16_error)
-      __Pyx_GOTREF(__pyx_t_6);
-      if (unlikely(!__pyx_v_dgms)) { __Pyx_RaiseUnboundLocalError("dgms"); __PYX_ERR(0, 67, __pyx_L16_error) }
-      __pyx_t_7 = NULL;
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (unlikely(!__pyx_v_dgms)) { __Pyx_RaiseUnboundLocalError("dgms"); __PYX_ERR(0, 69, __pyx_L16_error) }
+      __pyx_t_4 = NULL;
       __pyx_t_12 = 0;
-      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_7)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_7);
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+        if (likely(__pyx_t_4)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+          __Pyx_INCREF(__pyx_t_4);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_2, function);
+          __Pyx_DECREF_SET(__pyx_t_6, function);
           __pyx_t_12 = 1;
         }
       }
       #if CYTHON_FAST_PYCALL
-      if (PyFunction_Check(__pyx_t_2)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_6, __pyx_v_dgms};
-        __pyx_t_5 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L16_error)
-        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (PyFunction_Check(__pyx_t_6)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_resultFile, __pyx_v_dgms};
+        __pyx_t_7 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 69, __pyx_L16_error)
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_GOTREF(__pyx_t_7);
       } else
       #endif
       #if CYTHON_FAST_PYCCALL
-      if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
-        PyObject *__pyx_temp[3] = {__pyx_t_7, __pyx_t_6, __pyx_v_dgms};
-        __pyx_t_5 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L16_error)
-        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
+        PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_v_resultFile, __pyx_v_dgms};
+        __pyx_t_7 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 69, __pyx_L16_error)
+        __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_GOTREF(__pyx_t_7);
       } else
       #endif
       {
-        __pyx_t_8 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 67, __pyx_L16_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        if (__pyx_t_7) {
-          __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
+        __pyx_t_5 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L16_error)
+        __Pyx_GOTREF(__pyx_t_5);
+        if (__pyx_t_4) {
+          __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
         }
-        __Pyx_GIVEREF(__pyx_t_6);
-        PyTuple_SET_ITEM(__pyx_t_8, 0+__pyx_t_12, __pyx_t_6);
+        __Pyx_INCREF(__pyx_v_resultFile);
+        __Pyx_GIVEREF(__pyx_v_resultFile);
+        PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_12, __pyx_v_resultFile);
         __Pyx_INCREF(__pyx_v_dgms);
         __Pyx_GIVEREF(__pyx_v_dgms);
-        PyTuple_SET_ITEM(__pyx_t_8, 1+__pyx_t_12, __pyx_v_dgms);
-        __pyx_t_6 = 0;
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 67, __pyx_L16_error)
-        __Pyx_GOTREF(__pyx_t_5);
-        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_12, __pyx_v_dgms);
+        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 69, __pyx_L16_error)
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       }
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-      /* "PythonEegTopology.pyx":66
+      /* "PythonEegTopology.pyx":68
  *         print("Problem running Ripser module")
  * 
  *     try:             # <<<<<<<<<<<<<<
@@ -2045,13 +2103,13 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     goto __pyx_L21_try_end;
     __pyx_L16_error:;
-    __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "PythonEegTopology.pyx":68
+    /* "PythonEegTopology.pyx":70
  *     try:
  *         np.savetxt(resultFile,dgms)
  *     except:             # <<<<<<<<<<<<<<
@@ -2060,37 +2118,37 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
  */
     /*except:*/ {
       __Pyx_AddTraceback("PythonEegTopology.EegTruncate", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_2, &__pyx_t_8) < 0) __PYX_ERR(0, 68, __pyx_L18_except_error)
+      if (__Pyx_GetException(&__pyx_t_7, &__pyx_t_6, &__pyx_t_5) < 0) __PYX_ERR(0, 70, __pyx_L18_except_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_GOTREF(__pyx_t_8);
 
-      /* "PythonEegTopology.pyx":69
+      /* "PythonEegTopology.pyx":71
  *         np.savetxt(resultFile,dgms)
  *     except:
  *         print("Problem saving output. Your results are displayed below...")             # <<<<<<<<<<<<<<
  *         print(dgms)
  * 
  */
-      if (__Pyx_PrintOne(0, __pyx_kp_s_Problem_saving_output_Your_resul) < 0) __PYX_ERR(0, 69, __pyx_L18_except_error)
+      if (__Pyx_PrintOne(0, __pyx_kp_s_Problem_saving_output_Your_resul) < 0) __PYX_ERR(0, 71, __pyx_L18_except_error)
 
-      /* "PythonEegTopology.pyx":70
+      /* "PythonEegTopology.pyx":72
  *     except:
  *         print("Problem saving output. Your results are displayed below...")
  *         print(dgms)             # <<<<<<<<<<<<<<
  * 
  * 
  */
-      if (unlikely(!__pyx_v_dgms)) { __Pyx_RaiseUnboundLocalError("dgms"); __PYX_ERR(0, 70, __pyx_L18_except_error) }
-      if (__Pyx_PrintOne(0, __pyx_v_dgms) < 0) __PYX_ERR(0, 70, __pyx_L18_except_error)
+      if (unlikely(!__pyx_v_dgms)) { __Pyx_RaiseUnboundLocalError("dgms"); __PYX_ERR(0, 72, __pyx_L18_except_error) }
+      if (__Pyx_PrintOne(0, __pyx_v_dgms) < 0) __PYX_ERR(0, 72, __pyx_L18_except_error)
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       goto __pyx_L17_exception_handled;
     }
     __pyx_L18_except_error:;
 
-    /* "PythonEegTopology.pyx":66
+    /* "PythonEegTopology.pyx":68
  *         print("Problem running Ripser module")
  * 
  *     try:             # <<<<<<<<<<<<<<
@@ -2110,10 +2168,10 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
     __pyx_L21_try_end:;
   }
 
-  /* "PythonEegTopology.pyx":21
- * cdef resultFile = 'Desktop/dgms.txt'
+  /* "PythonEegTopology.pyx":22
+ * resultFile = r'C:\Users\mannj\OneDrive\Desktop/dgms.txt'
  * 
- * cdef EegTruncate(char* startFile, char* resultFile, int lengthOfArray, float threshold):             # <<<<<<<<<<<<<<
+ * cdef EegTruncate(startFile, resultFile, int lengthOfArray, float threshold):             # <<<<<<<<<<<<<<
  * #cdef EegTruncate():
  *     # cdef char* startFile, resultFile
  */
@@ -2122,7 +2180,7 @@ static PyObject *__pyx_f_17PythonEegTopology_EegTruncate(char *__pyx_v_startFile
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
@@ -2193,22 +2251,29 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_kp_s_Desktop_dgms_txt, __pyx_k_Desktop_dgms_txt, sizeof(__pyx_k_Desktop_dgms_txt), 0, 0, 1, 0},
+  {&__pyx_kp_s_00000015_s003_t000_edf, __pyx_k_00000015_s003_t000_edf, sizeof(__pyx_k_00000015_s003_t000_edf), 0, 0, 1, 0},
+  {&__pyx_kp_s_C_Users_mannj_OneDrive_Desktop_d, __pyx_k_C_Users_mannj_OneDrive_Desktop_d, sizeof(__pyx_k_C_Users_mannj_OneDrive_Desktop_d), 0, 0, 1, 0},
   {&__pyx_n_s_PCA, __pyx_k_PCA, sizeof(__pyx_k_PCA), 0, 0, 1, 1},
   {&__pyx_n_s_PersImage, __pyx_k_PersImage, sizeof(__pyx_k_PersImage), 0, 0, 1, 1},
   {&__pyx_kp_s_Problem_running_Ripser_module, __pyx_k_Problem_running_Ripser_module, sizeof(__pyx_k_Problem_running_Ripser_module), 0, 0, 1, 0},
   {&__pyx_kp_s_Problem_saving_output_Your_resul, __pyx_k_Problem_saving_output_Your_resul, sizeof(__pyx_k_Problem_saving_output_Your_resul), 0, 0, 1, 0},
   {&__pyx_n_s_Rips, __pyx_k_Rips, sizeof(__pyx_k_Rips), 0, 0, 1, 1},
   {&__pyx_kp_s_Seed_values_not_all_defined, __pyx_k_Seed_values_not_all_defined, sizeof(__pyx_k_Seed_values_not_all_defined), 0, 0, 1, 0},
-  {&__pyx_n_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 1},
+  {&__pyx_n_s_VisibleDeprecationWarning, __pyx_k_VisibleDeprecationWarning, sizeof(__pyx_k_VisibleDeprecationWarning), 0, 0, 1, 1},
+  {&__pyx_n_s__4, __pyx_k__4, sizeof(__pyx_k__4), 0, 0, 1, 1},
+  {&__pyx_n_s_array, __pyx_k_array, sizeof(__pyx_k_array), 0, 0, 1, 1},
+  {&__pyx_n_s_category, __pyx_k_category, sizeof(__pyx_k_category), 0, 0, 1, 1},
   {&__pyx_n_s_ch_names, __pyx_k_ch_names, sizeof(__pyx_k_ch_names), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
   {&__pyx_n_s_datasets, __pyx_k_datasets, sizeof(__pyx_k_datasets), 0, 0, 1, 1},
+  {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_end, __pyx_k_end, sizeof(__pyx_k_end), 0, 0, 1, 1},
   {&__pyx_n_s_file, __pyx_k_file, sizeof(__pyx_k_file), 0, 0, 1, 1},
+  {&__pyx_n_s_filterwarnings, __pyx_k_filterwarnings, sizeof(__pyx_k_filterwarnings), 0, 0, 1, 1},
   {&__pyx_n_s_fit, __pyx_k_fit, sizeof(__pyx_k_fit), 0, 0, 1, 1},
   {&__pyx_n_s_fit_transform, __pyx_k_fit_transform, sizeof(__pyx_k_fit_transform), 0, 0, 1, 1},
   {&__pyx_n_s_get_data, __pyx_k_get_data, sizeof(__pyx_k_get_data), 0, 0, 1, 1},
+  {&__pyx_n_s_ignore, __pyx_k_ignore, sizeof(__pyx_k_ignore), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_info, __pyx_k_info, sizeof(__pyx_k_info), 0, 0, 1, 1},
   {&__pyx_n_s_inverse_transform, __pyx_k_inverse_transform, sizeof(__pyx_k_inverse_transform), 0, 0, 1, 1},
@@ -2223,27 +2288,33 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
   {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
+  {&__pyx_n_s_object, __pyx_k_object, sizeof(__pyx_k_object), 0, 0, 1, 1},
   {&__pyx_n_s_persim, __pyx_k_persim, sizeof(__pyx_k_persim), 0, 0, 1, 1},
   {&__pyx_n_s_plt, __pyx_k_plt, sizeof(__pyx_k_plt), 0, 0, 1, 1},
   {&__pyx_n_s_print, __pyx_k_print, sizeof(__pyx_k_print), 0, 0, 1, 1},
   {&__pyx_n_s_product, __pyx_k_product, sizeof(__pyx_k_product), 0, 0, 1, 1},
   {&__pyx_n_s_read_raw_edf, __pyx_k_read_raw_edf, sizeof(__pyx_k_read_raw_edf), 0, 0, 1, 1},
+  {&__pyx_n_s_resultFile, __pyx_k_resultFile, sizeof(__pyx_k_resultFile), 0, 0, 1, 1},
   {&__pyx_n_s_ripser, __pyx_k_ripser, sizeof(__pyx_k_ripser), 0, 0, 1, 1},
   {&__pyx_n_s_savetxt, __pyx_k_savetxt, sizeof(__pyx_k_savetxt), 0, 0, 1, 1},
   {&__pyx_n_s_scipy, __pyx_k_scipy, sizeof(__pyx_k_scipy), 0, 0, 1, 1},
   {&__pyx_n_s_scipy_stats, __pyx_k_scipy_stats, sizeof(__pyx_k_scipy_stats), 0, 0, 1, 1},
   {&__pyx_n_s_sklearn, __pyx_k_sklearn, sizeof(__pyx_k_sklearn), 0, 0, 1, 1},
   {&__pyx_n_s_sklearn_decomposition, __pyx_k_sklearn_decomposition, sizeof(__pyx_k_sklearn_decomposition), 0, 0, 1, 1},
+  {&__pyx_n_s_startFile, __pyx_k_startFile, sizeof(__pyx_k_startFile), 0, 0, 1, 1},
   {&__pyx_n_s_stats, __pyx_k_stats, sizeof(__pyx_k_stats), 0, 0, 1, 1},
   {&__pyx_n_s_std, __pyx_k_std, sizeof(__pyx_k_std), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_transform, __pyx_k_transform, sizeof(__pyx_k_transform), 0, 0, 1, 1},
   {&__pyx_n_s_transpose, __pyx_k_transpose, sizeof(__pyx_k_transpose), 0, 0, 1, 1},
-  {&__pyx_kp_s_whatever_edf_file, __pyx_k_whatever_edf_file, sizeof(__pyx_k_whatever_edf_file), 0, 0, 1, 0},
+  {&__pyx_n_s_warnings, __pyx_k_warnings, sizeof(__pyx_k_warnings), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
+  __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) __PYX_ERR(0, 31, __pyx_L1_error)
   return 0;
+  __pyx_L1_error:;
+  return -1;
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
@@ -2251,15 +2322,37 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
   /* "PythonEegTopology.pyx":28
- * 
+ *     # cdef float threshold
  *     if startFile is None and resultFile is None and lengthOfArray is None and threshold is None:
  *         raise Exception("Seed values not all defined")             # <<<<<<<<<<<<<<
  * 
- *     data = mne.io.read_raw_edf(startFile)
+ *     np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
  */
   __pyx_tuple_ = PyTuple_Pack(1, __pyx_kp_s_Seed_values_not_all_defined); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 28, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
+
+  /* "PythonEegTopology.pyx":30
+ *         raise Exception("Seed values not all defined")
+ * 
+ *     np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)             # <<<<<<<<<<<<<<
+ *     data = mne.io.read_raw_edf("00000015_s003_t000.edf", dtype=object)
+ *     rawData = data.get_data()
+ */
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_n_s_ignore); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__2);
+  __Pyx_GIVEREF(__pyx_tuple__2);
+
+  /* "PythonEegTopology.pyx":31
+ * 
+ *     np.warnings.filterwarnings('ignore', category=np.VisibleDeprecationWarning)
+ *     data = mne.io.read_raw_edf("00000015_s003_t000.edf", dtype=object)             # <<<<<<<<<<<<<<
+ *     rawData = data.get_data()
+ *     info = data.info
+ */
+  __pyx_tuple__3 = PyTuple_Pack(1, __pyx_kp_s_00000015_s003_t000_edf); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 31, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__3);
+  __Pyx_GIVEREF(__pyx_tuple__3);
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -2269,7 +2362,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
 static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
-  __pyx_float_0_95 = PyFloat_FromDouble(0.95); if (unlikely(!__pyx_float_0_95)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_float_0_85 = PyFloat_FromDouble(0.85); if (unlikely(!__pyx_float_0_85)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_200 = PyInt_FromLong(200); if (unlikely(!__pyx_int_200)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -2288,10 +2381,8 @@ static int __Pyx_modinit_global_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_global_init_code", 0);
   /*--- Global init code ---*/
-  __pyx_v_17PythonEegTopology_file = Py_None; Py_INCREF(Py_None);
   __pyx_v_17PythonEegTopology_lengthOfArray = Py_None; Py_INCREF(Py_None);
   __pyx_v_17PythonEegTopology_threshold = Py_None; Py_INCREF(Py_None);
-  __pyx_v_17PythonEegTopology_resultFile = Py_None; Py_INCREF(Py_None);
   __Pyx_RefNannyFinishContext();
   return 0;
 }
@@ -2759,9 +2850,9 @@ if (!__Pyx_RefNanny) {
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s__2);
-  __Pyx_GIVEREF(__pyx_n_s__2);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__2);
+  __Pyx_INCREF(__pyx_n_s__4);
+  __Pyx_GIVEREF(__pyx_n_s__4);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__4);
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_matplotlib_pyplot, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -2773,60 +2864,54 @@ if (!__Pyx_RefNanny) {
  * import matplotlib.pyplot as plt
  * import mne             # <<<<<<<<<<<<<<
  * 
- * cdef file = 'whatever edf file'
+ * #startFile = r'C:\Users\mannj\OneDrive\Desktop\EegData\Seizure\00000015_s003_t000.edf'
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_mne, 0, -1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_mne, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "PythonEegTopology.pyx":16
- * import mne
- * 
- * cdef file = 'whatever edf file'             # <<<<<<<<<<<<<<
- * cdef lengthOfArray = 200
- * cdef threshold = 0.95
- */
-  __Pyx_INCREF(__pyx_kp_s_whatever_edf_file);
-  __Pyx_XGOTREF(__pyx_v_17PythonEegTopology_file);
-  __Pyx_DECREF_SET(__pyx_v_17PythonEegTopology_file, __pyx_kp_s_whatever_edf_file);
-  __Pyx_GIVEREF(__pyx_kp_s_whatever_edf_file);
-
   /* "PythonEegTopology.pyx":17
  * 
- * cdef file = 'whatever edf file'
+ * #startFile = r'C:\Users\mannj\OneDrive\Desktop\EegData\Seizure\00000015_s003_t000.edf'
+ * startFile = "00000015_s003_t000.edf"             # <<<<<<<<<<<<<<
+ * cdef lengthOfArray = 200
+ * cdef threshold = 0.85
+ */
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_startFile, __pyx_kp_s_00000015_s003_t000_edf) < 0) __PYX_ERR(0, 17, __pyx_L1_error)
+
+  /* "PythonEegTopology.pyx":18
+ * #startFile = r'C:\Users\mannj\OneDrive\Desktop\EegData\Seizure\00000015_s003_t000.edf'
+ * startFile = "00000015_s003_t000.edf"
  * cdef lengthOfArray = 200             # <<<<<<<<<<<<<<
- * cdef threshold = 0.95
- * cdef resultFile = 'Desktop/dgms.txt'
+ * cdef threshold = 0.85
+ * resultFile = r'C:\Users\mannj\OneDrive\Desktop/dgms.txt'
  */
   __Pyx_INCREF(__pyx_int_200);
   __Pyx_XGOTREF(__pyx_v_17PythonEegTopology_lengthOfArray);
   __Pyx_DECREF_SET(__pyx_v_17PythonEegTopology_lengthOfArray, __pyx_int_200);
   __Pyx_GIVEREF(__pyx_int_200);
 
-  /* "PythonEegTopology.pyx":18
- * cdef file = 'whatever edf file'
- * cdef lengthOfArray = 200
- * cdef threshold = 0.95             # <<<<<<<<<<<<<<
- * cdef resultFile = 'Desktop/dgms.txt'
- * 
- */
-  __Pyx_INCREF(__pyx_float_0_95);
-  __Pyx_XGOTREF(__pyx_v_17PythonEegTopology_threshold);
-  __Pyx_DECREF_SET(__pyx_v_17PythonEegTopology_threshold, __pyx_float_0_95);
-  __Pyx_GIVEREF(__pyx_float_0_95);
-
   /* "PythonEegTopology.pyx":19
+ * startFile = "00000015_s003_t000.edf"
  * cdef lengthOfArray = 200
- * cdef threshold = 0.95
- * cdef resultFile = 'Desktop/dgms.txt'             # <<<<<<<<<<<<<<
+ * cdef threshold = 0.85             # <<<<<<<<<<<<<<
+ * resultFile = r'C:\Users\mannj\OneDrive\Desktop/dgms.txt'
  * 
- * cdef EegTruncate(char* startFile, char* resultFile, int lengthOfArray, float threshold):
  */
-  __Pyx_INCREF(__pyx_kp_s_Desktop_dgms_txt);
-  __Pyx_XGOTREF(__pyx_v_17PythonEegTopology_resultFile);
-  __Pyx_DECREF_SET(__pyx_v_17PythonEegTopology_resultFile, __pyx_kp_s_Desktop_dgms_txt);
-  __Pyx_GIVEREF(__pyx_kp_s_Desktop_dgms_txt);
+  __Pyx_INCREF(__pyx_float_0_85);
+  __Pyx_XGOTREF(__pyx_v_17PythonEegTopology_threshold);
+  __Pyx_DECREF_SET(__pyx_v_17PythonEegTopology_threshold, __pyx_float_0_85);
+  __Pyx_GIVEREF(__pyx_float_0_85);
+
+  /* "PythonEegTopology.pyx":20
+ * cdef lengthOfArray = 200
+ * cdef threshold = 0.85
+ * resultFile = r'C:\Users\mannj\OneDrive\Desktop/dgms.txt'             # <<<<<<<<<<<<<<
+ * 
+ * cdef EegTruncate(startFile, resultFile, int lengthOfArray, float threshold):
+ */
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_resultFile, __pyx_kp_s_C_Users_mannj_OneDrive_Desktop_d) < 0) __PYX_ERR(0, 20, __pyx_L1_error)
 
   /* "PythonEegTopology.pyx":1
  * #whatever you set the EEG file to in directory in .edf format             # <<<<<<<<<<<<<<
@@ -2881,6 +2966,34 @@ end:
     return (__Pyx_RefNannyAPIStruct *)r;
 }
 #endif
+
+/* PyObjectGetAttrStr */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_getattro))
+        return tp->tp_getattro(obj, attr_name);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_getattr))
+        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
+#endif
+    return PyObject_GetAttr(obj, attr_name);
+}
+#endif
+
+/* GetBuiltinName */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
+    return result;
+}
 
 /* PyErrFetchRestore */
 #if CYTHON_FAST_THREAD_STATE
@@ -3178,34 +3291,6 @@ bad:
 }
 #endif
 
-/* PyObjectGetAttrStr */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_getattro))
-        return tp->tp_getattro(obj, attr_name);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_getattr))
-        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
-#endif
-    return PyObject_GetAttr(obj, attr_name);
-}
-#endif
-
-/* GetBuiltinName */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
-    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
-    if (unlikely(!result)) {
-        PyErr_Format(PyExc_NameError,
-#if PY_MAJOR_VERSION >= 3
-            "name '%U' is not defined", name);
-#else
-            "name '%.200s' is not defined", PyString_AS_STRING(name));
-#endif
-    }
-    return result;
-}
-
 /* PyDictVersioning */
 #if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
 static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
@@ -3266,29 +3351,6 @@ static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
 #endif
     return __Pyx_GetBuiltinName(name);
 }
-
-/* PyCFunctionFastCall */
-#if CYTHON_FAST_PYCCALL
-static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
-    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
-    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
-    PyObject *self = PyCFunction_GET_SELF(func);
-    int flags = PyCFunction_GET_FLAGS(func);
-    assert(PyCFunction_Check(func));
-    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
-    assert(nargs >= 0);
-    assert(nargs == 0 || args != NULL);
-    /* _PyCFunction_FastCallDict() must not be called with an exception set,
-       because it may clear it (directly or indirectly) and so the
-       caller loses its exception */
-    assert(!PyErr_Occurred());
-    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
-        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
-    } else {
-        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
-    }
-}
-#endif
 
 /* PyFunctionFastCall */
 #if CYTHON_FAST_PYCALL
@@ -3409,35 +3471,6 @@ done:
 #endif
 #endif
 
-/* PyObjectCall2Args */
-static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
-    PyObject *args, *result = NULL;
-    #if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyFunction_FastCall(function, args, 2);
-    }
-    #endif
-    #if CYTHON_FAST_PYCCALL
-    if (__Pyx_PyFastCFunction_Check(function)) {
-        PyObject *args[2] = {arg1, arg2};
-        return __Pyx_PyCFunction_FastCall(function, args, 2);
-    }
-    #endif
-    args = PyTuple_New(2);
-    if (unlikely(!args)) goto done;
-    Py_INCREF(arg1);
-    PyTuple_SET_ITEM(args, 0, arg1);
-    Py_INCREF(arg2);
-    PyTuple_SET_ITEM(args, 1, arg2);
-    Py_INCREF(function);
-    result = __Pyx_PyObject_Call(function, args, NULL);
-    Py_DECREF(args);
-    Py_DECREF(function);
-done:
-    return result;
-}
-
 /* PyObjectCallMethO */
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject *arg) {
@@ -3455,6 +3488,51 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallMethO(PyObject *func, PyObject
             "NULL result without error in PyObject_Call");
     }
     return result;
+}
+#endif
+
+/* PyObjectCallNoArg */
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
+#if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(func)) {
+        return __Pyx_PyFunction_FastCall(func, NULL, 0);
+    }
+#endif
+#ifdef __Pyx_CyFunction_USED
+    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
+#else
+    if (likely(PyCFunction_Check(func)))
+#endif
+    {
+        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
+            return __Pyx_PyObject_CallMethO(func, NULL);
+        }
+    }
+    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
+}
+#endif
+
+/* PyCFunctionFastCall */
+#if CYTHON_FAST_PYCCALL
+static CYTHON_INLINE PyObject * __Pyx_PyCFunction_FastCall(PyObject *func_obj, PyObject **args, Py_ssize_t nargs) {
+    PyCFunctionObject *func = (PyCFunctionObject*)func_obj;
+    PyCFunction meth = PyCFunction_GET_FUNCTION(func);
+    PyObject *self = PyCFunction_GET_SELF(func);
+    int flags = PyCFunction_GET_FLAGS(func);
+    assert(PyCFunction_Check(func));
+    assert(METH_FASTCALL == (flags & ~(METH_CLASS | METH_STATIC | METH_COEXIST | METH_KEYWORDS | METH_STACKLESS)));
+    assert(nargs >= 0);
+    assert(nargs == 0 || args != NULL);
+    /* _PyCFunction_FastCallDict() must not be called with an exception set,
+       because it may clear it (directly or indirectly) and so the
+       caller loses its exception */
+    assert(!PyErr_Occurred());
+    if ((PY_VERSION_HEX < 0x030700A0) || unlikely(flags & METH_KEYWORDS)) {
+        return (*((__Pyx_PyCFunctionFastWithKeywords)(void*)meth)) (self, args, nargs, NULL);
+    } else {
+        return (*((__Pyx_PyCFunctionFast)(void*)meth)) (self, args, nargs);
+    }
 }
 #endif
 
@@ -3495,28 +3573,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
     result = __Pyx_PyObject_Call(func, args, NULL);
     Py_DECREF(args);
     return result;
-}
-#endif
-
-/* PyObjectCallNoArg */
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
-#if CYTHON_FAST_PYCALL
-    if (PyFunction_Check(func)) {
-        return __Pyx_PyFunction_FastCall(func, NULL, 0);
-    }
-#endif
-#ifdef __Pyx_CyFunction_USED
-    if (likely(PyCFunction_Check(func) || __Pyx_CyFunction_Check(func)))
-#else
-    if (likely(PyCFunction_Check(func)))
-#endif
-    {
-        if (likely(PyCFunction_GET_FLAGS(func) & METH_NOARGS)) {
-            return __Pyx_PyObject_CallMethO(func, NULL);
-        }
-    }
-    return __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL);
 }
 #endif
 
@@ -3615,6 +3671,35 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(PyObject* obj,
         "'%.200s' object is unsliceable", Py_TYPE(obj)->tp_name);
 bad:
     return NULL;
+}
+
+/* PyObjectCall2Args */
+static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
+    PyObject *args, *result = NULL;
+    #if CYTHON_FAST_PYCALL
+    if (PyFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyFunction_FastCall(function, args, 2);
+    }
+    #endif
+    #if CYTHON_FAST_PYCCALL
+    if (__Pyx_PyFastCFunction_Check(function)) {
+        PyObject *args[2] = {arg1, arg2};
+        return __Pyx_PyCFunction_FastCall(function, args, 2);
+    }
+    #endif
+    args = PyTuple_New(2);
+    if (unlikely(!args)) goto done;
+    Py_INCREF(arg1);
+    PyTuple_SET_ITEM(args, 0, arg1);
+    Py_INCREF(arg2);
+    PyTuple_SET_ITEM(args, 1, arg2);
+    Py_INCREF(function);
+    result = __Pyx_PyObject_Call(function, args, NULL);
+    Py_DECREF(args);
+    Py_DECREF(function);
+done:
+    return result;
 }
 
 /* GetTopmostException */

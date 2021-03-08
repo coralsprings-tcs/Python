@@ -12,13 +12,27 @@ from ripser import Rips
 from persim import PersImage
 import matplotlib.pyplot as plt
 import mne
+import cython
 
-file = 'dummyData.txt'
-data = mne.io.read_raw_edf(file) 
-raw_data = data.get_data()
-info = data.info
-channels = data.ch_names 
-transf_data = raw_data.transpose()
+#startFile = r'C:\Users\mannj\OneDrive\Desktop\EegData\Seizure\00000015_s003_t000.edf'
+startFile = "00000015_s003_t000.edf"
+lengthOfArray = 200
+threshold = 0.95
+resultFile = r'C:\Users\mannj\OneDrive\Desktop/dgms.txt'
+
+def EegTruncate(startFile, resultFile, lengthOfArray, threshold):
+#cdef EegTruncate():   
+    # cdef char* startFile, resultFile
+    # cdef int lengthOfArray
+    # cdef float threshold
+    if startFile is None and resultFile is None and lengthOfArray is None and threshold is None:
+        raise Exception("Seed values not all defined")
+    
+    data = mne.io.read_raw_edf("00000015_s003_t000.edf") 
+    rawData = data.get_data()
+    info = data.info
+    channels = data.ch_names 
+    transposedData = rawData.transpose()
 #shape of array
 #assess how many data points are within array config_data = raw_data.shape
 #--------
@@ -27,28 +41,36 @@ transf_data = raw_data.transpose()
 #transpose data for use in subsequent calculations transf_data=raw_data.transpose() 
 #des_len can be changed depending on how many data points are desired
 #this may be useful if quick calculations are desired (sampling of EEG as opposed to using whole thing)
-des_len=200
-edf_data=transf_data[0:des_len] 
+
+    edf_data = transposedData[0:lengthOfArray] 
 #change threshold as desired
 #a value of 0.95 indicates channels that contribute to 95% of PCA
 #ideally use two to three channels for quicker results (threshold = 0.95 - 0.99)
 #this is useful only with normal EEGs as it is assumed normal EEGs will have similar channel patterns while seizures can have only several channel patterns be abnormal
-threshold = 0.95
 
-pca = PCA(threshold).fit(transf_data)
-components = pca.transform(transf_data)
-filtered = pca.inverse_transform(components)
-edf_data = filtered
+    pca = PCA(threshold).fit(transposedData)
+    components = pca.transform(transposedData)
+    edfFilteredData = pca.inverse_transform(components)
+    print(type(edfFilteredData))
 
 #Lets you know how many channels can be used with transformed components print('The number of channels that were used was '+repr(pca.n_components_)) 
 #Rips complex for EEG
 #this will save a text file of (birth, death) for analysis of the persistent homology in EEG to the desktop
 #the savetxt is set to work with Macs
 #the file path needed to successfully save is different with Windows 
-def r_complex(edf_data): 
-    rips = Rips()
-    dgms = rips.fit_transform(edf_data) 
-#    np.savetxt('Desktop/dgms.txt',dgms) 
+    try:
+        rips = Rips()
+        dgms = rips.fit_transform(edf_data)
+    except:
+        print("Problem running Ripser module")
+    
+    try:
+        np.savetxt(resultFile,dgms)
+    except:
+        print("Problem saving output. Your results are displayed below...")
+        print(dgms)
+    
+    
 #run basic statistical analysis of standard EEG (standard) and the seizure EEG (test) #t-test is included to verify there is a significant difference between the normal EEG and the EEG being tested
 # def stats(standard_data, test_data):
 #     mean_test=np.mean(test_data)
@@ -93,3 +115,5 @@ def r_complex(edf_data):
 #     ax.yaxis.set_major_locator(plt.NullLocator())
 #     #--------
 #     plt.show() 
+
+EegTruncate(startFile, resultFile, lengthOfArray, threshold)
