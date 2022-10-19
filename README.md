@@ -5,11 +5,16 @@ This is a repository for lessons covering more basic Python concepts. This proba
 * Module 1 - Variables, Loops (While, If/Else), Collections (Lists, Tuples, Dictionaries), Extra stuff (f-strings, converting to booleans for conditions)
 * Module 2 - Compilers vs. Interpreters
 * Module 3 - Functions, None, Extra stuff (Guard Clauses)
-TODO: try/except/else/finally
-TODO: raise Exception
-TODO: debug practice
-TODO: list comprehension
-TODO: Flask example
-TODO: classes / objects
-TODO: list[index] practice
-TODO: list questions
+
+# TODO
+* try/except/else/finally
+* raise Exception
+* debug practice
+* list comprehension
+* Flask example
+  * Basics of web development
+  * HTML -> ul / table / body / paragraph
+  * Status requests
+* classes / objects
+* list[index] practice
+* list questions
