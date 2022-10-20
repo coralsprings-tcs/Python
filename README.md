@@ -14,3 +14,4 @@ The lessons folder contains the lesson plans while the practice folder has corre
   * HTML -> ul / table / body / paragraph
   * Status requests
 * classes / objects
+* rock-paper-scissors (rock-paper-scissors-lizard-spock challenge) onward in games and scoring for it (other challenge)

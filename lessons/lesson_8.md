@@ -40,6 +40,6 @@ while True:
     if i < 6:
         i += 1
     else:
-        break
+        break # how you break out of a loop
 ```
 
