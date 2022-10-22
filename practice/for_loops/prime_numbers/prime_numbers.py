@@ -9,7 +9,7 @@ def is_prime(integer) -> bool:
 for i in range(1, 101):
     if i == 1:
         continue # skips i = 1 and moves to next i value
-    if is_prime(i):
+    if is_prime(i) and i not in primes:
         primes.append(i)
 
 for prime in primes:
