@@ -28,7 +28,7 @@ You can do the following thanks to it:
 ```python
 a = 5
 b = 5.5
-print(a+b)
+print(a+b) # print literally prints to screen
 ```
 Python figures out based on variable "b" that "a" should be a float value. This is a lot different than Java, C, and other static type languages.
 ```c
@@ -37,9 +37,20 @@ float a = 5;
 float b = 5.5;
 printf(a+b)
 ```
-If it walks like a duck, quacks like a duck, it is a duck. This is how Python figures out what to do with variables. If it looks like a string, acts like a string, it is a string. No declaration needed for most cases. Sometimes, though, it will not work like with below.
+If it walks like a duck, quacks like a duck, it is a duck. This is how Python figures out what to do with variables. If it looks like a string, acts like a string, it is a string. No declaration needed for most cases. Sometimes, though, it will not work like with below. Try it out!
 ```python
 print(5+'things')
 ```
-To get around this you can convert variables to different types (typecasting) or use format strings (f-strings) which we will cover next time.
+
+Last thing to try is the below:
+```python
+str_input = input('Enter an input:' ) # What you put in is an input
+print(str_input)
+```
+
+# Review
+* What happens when you try print(5+'string')?
+* When you try print(5+5)?
+* Why?
+
 

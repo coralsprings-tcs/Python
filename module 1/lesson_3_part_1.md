@@ -56,4 +56,31 @@ else:
     print('number is not 0, 1, 2, 3, or negative')
 ```
 
-Think about how messy this can get with enough conditions. A later lesson will be an alternative release in Python 3.10 (a few years ago).
+You can also use an if statement that is true when one or more things is true such as below:
+```python
+number = -5
+if number > 0 or number < 0:
+    print('number is not zero')
+else:
+    print('number is zero')
+```
+or even do this:
+```python
+if (number is odd) and (greater than zero):
+    # do something
+elif (number is even) and (greater than zero):
+    # do something else
+elif number == zero:
+    # yet something else  
+else:
+    # say number is negative
+
+```
+NOTE: each of the things in parentheses above can be multiple conditions so you can do 
+```python
+if (thing1 or thing2) or (thing3 and thing4): #whatever it is, it is true
+    # do something
+else:
+    pass
+```
+Think about how messy this can get with enough conditions!

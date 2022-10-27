@@ -42,4 +42,3 @@ while True:
     else:
         break # how you break out of a loop
 ```
-
