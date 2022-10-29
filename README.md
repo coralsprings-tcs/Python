@@ -5,4 +5,4 @@ This is a repository for lessons covering more basic Python concepts. This proba
 Each module has a few bite-sized lessons and a set of activities to do after them. 
 
 # What is there so far
-So far there is only module 1 and I will be adding in the remaining lessons as I come up with corresponding activities.
+So far there are 2 modules so far and I will be adding in the remaining lessons as I come up with corresponding activities.
