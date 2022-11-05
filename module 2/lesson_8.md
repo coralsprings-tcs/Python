@@ -1,4 +1,13 @@
 # Functions
+## None Type
+None is another type of variable. It means nothing and should not confused with 0 for the sake of dicussion. It can be used as below and can even use typehints:
+```python
+new_var = None
+other_var: None = None
+print(new_var) # None
+```
+
+## Functions
 Functions in Python are written as followed
 ```python
 def function(your_paramater,your_paramter2):
@@ -13,6 +22,22 @@ def match_x(item):
     else:
         return False
 ```
+Whenever you have a function it will automatically set the return value to None unless specified otherwise such as below:
+```python
+def new_func():
+    print('hi')
+
+def other_func():
+    return
+
+def another_func():
+    pass
+
+print(new_func()) # None
+print(other_func()) # None
+print(another_func()) # None
+```
+
 You can also typehint your parameters like below. The "-> float|int" part indicates that a value of float or int should be your output. 
 ```python
 def adder(a:float|int, b:float|int) -> float|int:
@@ -36,3 +61,14 @@ def make_new_list(a:[float]) -> [float|int]:
     # function does something with list inputs to get a list output
 ```
 This is particularly useful when you're trying to find an error or want to know the basics of a function you are using.
+
+# Review
+Consider the following function:
+```python
+def test():
+    print('testing')
+```
+* What does the function return?
+* Why?
+
+* How can you create a function to increase each value in a list by 1? (ie. [1,2,3,4] -> [2,3,4,5])

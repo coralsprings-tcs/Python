@@ -9,3 +9,6 @@ bool(test_item)
 
 new_item = 'string thing'
 ```
+
+# Review
+* What types of variable conversions will not work? Why?

@@ -42,3 +42,6 @@ while True:
     else:
         break # how you break out of a loop
 ```
+# Review
+* RESEARCH: What is a guard clause?
+* Can you use an else with a for loop or a while loop? If so, when will it work?
