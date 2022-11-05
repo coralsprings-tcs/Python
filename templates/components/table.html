@@ -1,0 +1,24 @@
+<table>
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Description
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in api_data %}
+        <tr>
+            <td>{{api_data[i].id}}</td>
+            <td>{{api_data[i].name}}</td>
+            <td>{{api_data[i].description}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

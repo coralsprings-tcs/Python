@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>FlaskApp</title>
-</head>
-<body>
-    <h1>Hello World!</h1>
-    <h2>Welcome to FlaskApp!</h2>
-    <h3>{{ utc_dt }}</h3>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Welcome to FlaskApp!</h1>
+    <p>The datetime is {{ utc_dt }}</p>
+{% endblock %}
