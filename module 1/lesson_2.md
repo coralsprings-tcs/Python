@@ -22,8 +22,3 @@ Lists can have lists in them so
 list_of_lists = [[1,2,3,4],[5,6,7],['a','b','c']]
 ```
 will work in Python.
-
-# Review
-* How do you create a list? 
-* How do you retrieve an item from a list?
-* How do you remove an item? Add an item?

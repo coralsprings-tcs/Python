@@ -83,4 +83,3 @@ if (thing1 or thing2) or (thing3 and thing4): #whatever it is, it is true
 else:
     pass
 ```
-Think about how messy this can get with enough conditions!

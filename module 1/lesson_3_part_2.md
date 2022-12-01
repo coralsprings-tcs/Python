@@ -6,10 +6,12 @@ items = [1,2,3,4,5]
 # print(item) # calling this here will give an error
 for item in items:
     print(item)
+else:
+    # optional to put an else but can be used for any loop
 
 print(item) # 5 because that is the last item in list
 ```
-Try explaining why this works the way it does and you got for loops. Compare this to doing a similar loop in C!
+Try explaining why this works the way it does and you got for loops. Compare this to doing a similar loop in C.
 ```c
 items = {1,2,3,4,5}
 // Below you start with index 0 and loop through all items in the length
@@ -42,6 +44,3 @@ while True:
     else:
         break # how you break out of a loop
 ```
-# Review
-* RESEARCH: What is a guard clause?
-* Can you use an else with a for loop or a while loop? If so, when will it work?

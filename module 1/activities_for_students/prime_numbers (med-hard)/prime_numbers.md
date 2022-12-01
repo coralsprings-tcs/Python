@@ -11,6 +11,4 @@ That's all the math you need to know for this to work. Now onto how the code sho
 * Make use of the inbuilt range function and modulus operator
 * You can print directly, add to a list of prime numbers which prints later on, or however you want to do it
 
-Refer to prime_numbers.py for a way of doing it. For an added challenge try explaining why I did it that way! As a note, the range function returns 1 to x-1, meaning range(1,10) will give 1,2,3,...9 and NOT 10. It can be iterated through like any list as well.
-
-
+s a note, the range function returns 1 to x-1, meaning range(1,10) will give 1,2,3,...9 and NOT 10. It can be iterated through like any list as well.

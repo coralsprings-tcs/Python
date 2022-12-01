@@ -18,4 +18,4 @@ What you'll be trying to do is the following:
 * Limit the number of possible guesses to 7, and the game is over when > 7 is reached
 * A prompt to try again automatically (ie. Would you like to try again?)
 
-When you're done try it out and compare it to the two Python files in this folder. There are no "more correct" ways of doing this. Use match statements, if-else, functions, or any other way you can think of. Have fun!
+When you're done try it out and compare it to the two Python files in this folder. There are no "more correct" ways of doing this. Use match statements, if-else, functions, or any other way you can think of.
