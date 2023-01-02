@@ -61,14 +61,3 @@ def make_new_list(a:[float]) -> [float|int]:
     # function does something with list inputs to get a list output
 ```
 This is particularly useful when you're trying to find an error or want to know the basics of a function you are using.
-
-# Review
-Consider the following function:
-```python
-def test():
-    print('testing')
-```
-* What does the function return?
-* Why?
-
-* How can you create a function to increase each value in a list by 1? (ie. [1,2,3,4] -> [2,3,4,5])

@@ -35,7 +35,3 @@ match number: # match variable
     case _: # default case (the else)
         print('number is not 0, 1, 2, 3, or negative')
 ```
-See if you can come up with other examples. Try writing them in both formats.
-
-# Review
-* How can you handle multiple cases in a single case? (ie. number > 0 or number < 0) 

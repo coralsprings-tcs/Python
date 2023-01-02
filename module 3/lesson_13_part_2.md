@@ -20,4 +20,3 @@ bool(0)
 bool(float(0))
 bool('')
 ```
-Think about how this can be useful in code.

@@ -7,7 +7,7 @@
 # or except (will work for all exceptions):
     # For 1+ exceptions
 # else:
-    # if what happened in try works, do this
+    # if what happened in "try" works, do this
 # finally:
     # does whether or not exception occurs
 # The else and finally are optional.

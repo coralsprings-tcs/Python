@@ -44,3 +44,21 @@ while True:
     else:
         break # how you break out of a loop
 ```
+
+## NOTE
+You can use an "else" with a loop for doing something after the loop happens such as below.
+```python
+items = [1,2,3,4]
+for i in items:
+    print(i)
+else:
+    print('list iteration is done')
+
+i = 0
+while i < 4:
+    print(items[i]) # 1, 2, 3, 4
+    i+=1
+else:
+    print('loop done')
+```
+You probably will not see it done a lot since it is not terribly practical and can be confusing when reading code.

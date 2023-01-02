@@ -10,7 +10,3 @@ print(a+b)
 c: float|int = 10 
 d: float|int|str = '10'
 ```
-
-# Review
-* Do the typehints need to match the actual variable type?
-* How do you set multiple typehints for a single variable?
