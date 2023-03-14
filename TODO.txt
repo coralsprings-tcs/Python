@@ -1,0 +1,8 @@
+- loads config with choices
+- functions instead
+
+choices = ["1 choice", "2 choice", ..."4 choice"]
+
+func do_choice():
+	# does while loop asking for input
+	# matches input to a choice on a list
